@@ -21,8 +21,11 @@ public class PatientEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "identification_number", nullable = false, unique = true)
+    private String identificationNumber;
+    @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
+    @Column(name = "email", unique = true)
     private String email;
     private LocalDate birthDate;
     private String notes;

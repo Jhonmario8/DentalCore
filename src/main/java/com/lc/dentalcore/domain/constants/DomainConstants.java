@@ -10,4 +10,7 @@ public class DomainConstants {
     public static final String MSG_INVALID_CREDENTIALS = "Invalid credentials";
     public static final String MSG_PASSWORD_CANNOT_BE_NULL_OR_EMPTY = "Password cannot be null or empty.";
     public static final String INVALID_PHONE_NUMBER = "Invalid phone number";
+    public static final String INVALID_IDENTIFICATION_NUMBER = "Invalid identification number";
+    public static final String MSG_IDENTIFICATION_NUMBER_ALREADY_EXISTS = "Identification number already exists";
+    public static final String MSG_PHONE_NUMBER_ALREADY_EXISTS = "Phone number already exists";
 }

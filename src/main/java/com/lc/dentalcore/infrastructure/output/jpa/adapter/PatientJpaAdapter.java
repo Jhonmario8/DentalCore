@@ -7,6 +7,8 @@ import com.lc.dentalcore.infrastructure.output.jpa.repository.IPatientRepository
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class PatientJpaAdapter implements IPatientPersistencePort {
@@ -18,5 +20,23 @@ public class PatientJpaAdapter implements IPatientPersistencePort {
     @Override
     public void savePatient(Patient patient) {
         patientRepository.save(mapper.toEntity(patient));
+    }
+
+    @Override
+    public Optional<Patient> findByEmail(String email) {
+        return patientRepository.findByEmail(email)
+                .map(mapper::toDomain);
+
+    }
+
+    @Override
+    public Optional<Patient> findByIdentificationNumber(String identificationNumber) {
+        return patientRepository.findByIdentificationNumber(identificationNumber)
+                .map(mapper::toDomain);
+    }
+
+    @Override
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return patientRepository.existsByPhoneNumber(phoneNumber);
     }
 }
