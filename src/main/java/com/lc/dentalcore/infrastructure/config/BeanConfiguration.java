@@ -1,6 +1,7 @@
 package com.lc.dentalcore.infrastructure.config;
 
 import com.lc.dentalcore.domain.api.IPasswordServicePort;
+import com.lc.dentalcore.domain.api.ITokenServicePort;
 import com.lc.dentalcore.domain.api.IUserServicePort;
 import com.lc.dentalcore.domain.spi.IUserPersistencePort;
 import com.lc.dentalcore.domain.usecase.UserService;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class BeanConfiguration {
 
     private IUserPersistencePort userPersistencePort;
+    private ITokenServicePort tokenServicePort;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -23,6 +25,6 @@ public class BeanConfiguration {
 
     @Bean
     public IUserServicePort userServicePort(IPasswordServicePort passwordServicePort){
-        return new UserService(userPersistencePort, passwordServicePort);
+        return new UserService(userPersistencePort, passwordServicePort, tokenServicePort);
     }
 }

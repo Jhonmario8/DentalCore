@@ -1,8 +1,7 @@
 package com.lc.dentalcore.infrastructure.output.security.adapter;
 
 import com.lc.dentalcore.domain.api.IPasswordServicePort;
-import com.lc.dentalcore.infrastructure.constants.InfrastructureConstants;
-import com.lc.dentalcore.infrastructure.exception.InfrastructureException;
+import com.lc.dentalcore.domain.exception.NullPasswordException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,7 @@ public class PasswordServiceAdapter implements IPasswordServicePort {
     @Override
     public String encodePassword(String password) {
         if (password == null || password.isEmpty()) {
-            throw new InfrastructureException(InfrastructureConstants.MSG_PASSWORD_CANNOT_BE_NULL_OR_EMPTY, InfrastructureConstants.BAD_REQUEST);
+            throw new NullPasswordException();
         }
         return passwordEncoder.encode(password);
     }
@@ -24,7 +23,7 @@ public class PasswordServiceAdapter implements IPasswordServicePort {
     @Override
     public boolean matches(String password, String hashedPassword) {
         if (password == null || password.isEmpty() || hashedPassword == null || hashedPassword.isEmpty()) {
-            throw new InfrastructureException(InfrastructureConstants.MSG_PASSWORD_CANNOT_BE_NULL_OR_EMPTY, InfrastructureConstants.BAD_REQUEST);
+            throw new NullPasswordException();
         }
         return passwordEncoder.matches(password, hashedPassword);
     }

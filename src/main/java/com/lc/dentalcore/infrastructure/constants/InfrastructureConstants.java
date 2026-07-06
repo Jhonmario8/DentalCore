@@ -11,5 +11,6 @@ public class InfrastructureConstants {
     public static final Object EMPTY_STRING = "";
     public static final int BAD_REQUEST = 400;
     public static final String MSG_INVALID_DATA = "Invalid data provided.";
-    public static final String MSG_PASSWORD_CANNOT_BE_NULL_OR_EMPTY = "Password cannot be null or empty.";
+    public static final int CONFLICT = 409;
+    public static final int UNAUTHORIZED = 401;
 }

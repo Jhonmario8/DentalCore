@@ -1,8 +1,8 @@
 package com.lc.dentalcore.domain.model;
 
 import com.lc.dentalcore.domain.api.IPasswordServicePort;
-import com.lc.dentalcore.domain.constants.DomainConstants;
-import com.lc.dentalcore.domain.exception.DomainException;
+import com.lc.dentalcore.domain.exception.InvalidEmail;
+import com.lc.dentalcore.domain.exception.InvalidPassword;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,10 +29,10 @@ public class User {
 
     public void validate(){
         if (!this.email.matches(EMAIL_PATTERN)){
-            throw new DomainException(DomainConstants.INVALID_EMAIL_ADDRESS);
+            throw new InvalidEmail();
         }
         if (!password.matches(PASSWORD_PATTERN)) {
-            throw new DomainException(DomainConstants.INVALID_PASSWORD);
+            throw new InvalidPassword();
         }
 
     }

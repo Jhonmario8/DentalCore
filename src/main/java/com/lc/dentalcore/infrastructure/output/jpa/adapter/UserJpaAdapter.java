@@ -7,6 +7,8 @@ import com.lc.dentalcore.infrastructure.output.jpa.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserJpaAdapter implements IUserPersistencePort {
@@ -17,5 +19,10 @@ public class UserJpaAdapter implements IUserPersistencePort {
     @Override
     public void saveUser(User user) {
         repository.save(mapper.toEntity(user));
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return repository.findByEmail(email).map(mapper::toDomain);
     }
 }

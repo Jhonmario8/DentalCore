@@ -1,5 +1,6 @@
 package com.lc.dentalcore.infrastructure.input.controller;
 
+import com.lc.dentalcore.application.dto.TokenResponseDTO;
 import com.lc.dentalcore.application.dto.UserDTO;
 import com.lc.dentalcore.application.handler.IUserHandler;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,11 @@ public class UserController {
         userHandler.createUser(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponseDTO> loginUser(@RequestBody UserDTO userDTO) {
+        TokenResponseDTO token = userHandler.login(userDTO);
+        return ResponseEntity.ok(token);
+    }
+
 
 }
