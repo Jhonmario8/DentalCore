@@ -1,0 +1,28 @@
+package com.lc.dentalcore.infrastructure.config;
+
+import com.lc.dentalcore.domain.api.IPasswordServicePort;
+import com.lc.dentalcore.domain.api.IUserServicePort;
+import com.lc.dentalcore.domain.spi.IUserPersistencePort;
+import com.lc.dentalcore.domain.usecase.UserService;
+import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+@AllArgsConstructor
+public class BeanConfiguration {
+
+    private IUserPersistencePort userPersistencePort;
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public IUserServicePort userServicePort(IPasswordServicePort passwordServicePort){
+        return new UserService(userPersistencePort, passwordServicePort);
+    }
+}
