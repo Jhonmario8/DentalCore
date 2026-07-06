@@ -23,8 +23,8 @@ public class SecurityConfig {
                 .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/users/**").permitAll()
+                        .anyRequest().authenticated()
                 );
 
         http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
