@@ -14,4 +14,5 @@ public class DomainConstants {
     public static final String MSG_IDENTIFICATION_NUMBER_ALREADY_EXISTS = "Identification number already exists";
     public static final String MSG_PHONE_NUMBER_ALREADY_EXISTS = "Phone number already exists";
     public static final String PATIENT_NOT_FOUND = "Patient not found";
+    public static final String PATIENT_ALREADY_INACTIVE = "Patient is already inactive";
 }

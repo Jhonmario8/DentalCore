@@ -30,4 +30,9 @@ public class PatientController {
     public ResponseEntity<?> findAll(@RequestParam(required = false) String name) {
         return ResponseEntity.ok(patientHandler.findAll(name));
     }
+    @PatchMapping("/{id}/inactivate")
+    public ResponseEntity<Void> inactivatePatient(@PathVariable Long id) {
+        patientHandler.inactivatePatient(id);
+        return ResponseEntity.ok().build();
+    }
 }

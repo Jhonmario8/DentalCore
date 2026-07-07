@@ -1,12 +1,10 @@
 package com.lc.dentalcore.domain.usecase;
 
 import com.lc.dentalcore.domain.api.IPatientServicePort;
-import com.lc.dentalcore.domain.exception.EmailAlreadyExistsException;
-import com.lc.dentalcore.domain.exception.IdentificationNumberAlreadyExistException;
-import com.lc.dentalcore.domain.exception.PatientNotFoundException;
-import com.lc.dentalcore.domain.exception.PhoneNumberAlreadyExist;
+import com.lc.dentalcore.domain.exception.*;
 import com.lc.dentalcore.domain.model.Patient;
 import com.lc.dentalcore.domain.spi.IPatientPersistencePort;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -25,6 +23,7 @@ public class PatientService implements IPatientServicePort {
     }
 
     @Override
+    @Transactional
     public Patient updatePatient(Long id, Patient patient) {
         Patient existsPatient = patientPersistencePort.findById(id).orElseThrow(PatientNotFoundException::new);
         patient.validate();
@@ -44,6 +43,14 @@ public class PatientService implements IPatientServicePort {
                 ? patientPersistencePort.findAllByName(name)
                 : patientPersistencePort.findAll();
 
+    }
+
+    @Override
+    public void inactivatePatient(Long id) {
+        Patient patient = patientPersistencePort.findById(id).orElseThrow(PatientNotFoundException::new);
+        if (!patient.getActive()) throw new PatientAlreadyInactiveException();
+        patient.setActive(false);
+        patientPersistencePort.savePatient(patient);
     }
 
     private void validateUniquePatient(Patient patient) {

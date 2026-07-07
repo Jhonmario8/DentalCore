@@ -29,4 +29,9 @@ public class PatientHandler implements IPatientHandler{
     public List<PatientDTO> findAll(String name) {
         return patientServicePort.findAll(name).stream().map(patientMapper::toDTO).toList();
     }
+
+    @Override
+    public void inactivatePatient(Long id) {
+        patientServicePort.inactivatePatient(id);
+    }
 }

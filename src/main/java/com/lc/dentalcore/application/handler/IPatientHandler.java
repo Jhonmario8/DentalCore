@@ -8,4 +8,5 @@ public interface IPatientHandler {
     PatientDTO createPatient(PatientDTO patientDTO);
     PatientDTO updatePatient(Long id, PatientDTO patientDTO);
     List<PatientDTO> findAll(String name);
+    void inactivatePatient(Long id);
 }
