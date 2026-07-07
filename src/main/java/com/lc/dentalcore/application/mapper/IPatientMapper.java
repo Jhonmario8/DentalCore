@@ -9,5 +9,6 @@ import org.mapstruct.MappingConstants;
 public interface IPatientMapper {
 
     Patient toDomain(PatientDTO patientDTO);
+    PatientDTO toDTO(Patient patient);
 
 }

@@ -18,8 +18,8 @@ public class PatientJpaAdapter implements IPatientPersistencePort {
 
 
     @Override
-    public void savePatient(Patient patient) {
-        patientRepository.save(mapper.toEntity(patient));
+    public Patient savePatient(Patient patient) {
+        return mapper.toDomain(patientRepository.save(mapper.toEntity(patient)));
     }
 
     @Override
@@ -38,5 +38,11 @@ public class PatientJpaAdapter implements IPatientPersistencePort {
     @Override
     public boolean existsByPhoneNumber(String phoneNumber) {
         return patientRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public Optional<Patient> findById(Long id) {
+        return patientRepository.findById(id)
+                .map(mapper::toDomain);
     }
 }

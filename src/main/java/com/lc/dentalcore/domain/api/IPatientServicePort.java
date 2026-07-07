@@ -4,5 +4,7 @@ import com.lc.dentalcore.domain.model.Patient;
 
 public interface IPatientServicePort {
 
-    void createPatient(Patient patient);
+    Patient createPatient(Patient patient);
+    Patient updatePatient(Long id, Patient patient);
+
 }

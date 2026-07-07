@@ -2,6 +2,7 @@ package com.lc.dentalcore.infrastructure.exception;
 
 import com.lc.dentalcore.domain.exception.BadRequest;
 import com.lc.dentalcore.domain.exception.ConflictException;
+import com.lc.dentalcore.domain.exception.NotFoundException;
 import com.lc.dentalcore.domain.exception.UnauthorizedException;
 import com.lc.dentalcore.infrastructure.constants.InfrastructureConstants;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequest ex) {
         return ResponseEntity.status(InfrastructureConstants.BAD_REQUEST)
                 .body(new ErrorResponse(ex.getMessage(), InfrastructureConstants.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex) {
+        return ResponseEntity.status(InfrastructureConstants.NOT_FOUND)
+                .body(new ErrorResponse(ex.getMessage(), InfrastructureConstants.NOT_FOUND));
     }
 }

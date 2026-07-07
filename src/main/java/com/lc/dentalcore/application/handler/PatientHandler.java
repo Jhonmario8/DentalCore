@@ -14,7 +14,12 @@ public class PatientHandler implements IPatientHandler{
     private final IPatientMapper patientMapper;
 
     @Override
-    public void createPatient(PatientDTO patientDTO) {
-        patientServicePort.createPatient(patientMapper.toDomain(patientDTO));
+    public PatientDTO createPatient(PatientDTO patientDTO) {
+        return patientMapper.toDTO(patientServicePort.createPatient(patientMapper.toDomain(patientDTO)));
+    }
+
+    @Override
+    public PatientDTO updatePatient(Long id, PatientDTO patientDTO) {
+        return patientMapper.toDTO(patientServicePort.updatePatient(id, patientMapper.toDomain(patientDTO)));
     }
 }
