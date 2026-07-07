@@ -6,6 +6,8 @@ import com.lc.dentalcore.domain.api.IPatientServicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PatientHandler implements IPatientHandler{
@@ -21,5 +23,10 @@ public class PatientHandler implements IPatientHandler{
     @Override
     public PatientDTO updatePatient(Long id, PatientDTO patientDTO) {
         return patientMapper.toDTO(patientServicePort.updatePatient(id, patientMapper.toDomain(patientDTO)));
+    }
+
+    @Override
+    public List<PatientDTO> findAll(String name) {
+        return patientServicePort.findAll(name).stream().map(patientMapper::toDTO).toList();
     }
 }

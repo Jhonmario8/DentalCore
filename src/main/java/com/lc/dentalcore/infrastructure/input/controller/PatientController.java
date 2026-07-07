@@ -25,4 +25,9 @@ public class PatientController {
         PatientDTO dto = patientHandler.updatePatient(id, patientDTO);
         return ResponseEntity.ok(dto);
     }
+
+    @GetMapping()
+    public ResponseEntity<?> findAll(@RequestParam(required = false) String name) {
+        return ResponseEntity.ok(patientHandler.findAll(name));
+    }
 }

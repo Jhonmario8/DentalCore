@@ -7,6 +7,7 @@ import com.lc.dentalcore.infrastructure.output.jpa.repository.IPatientRepository
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,4 +46,20 @@ public class PatientJpaAdapter implements IPatientPersistencePort {
         return patientRepository.findById(id)
                 .map(mapper::toDomain);
     }
+
+    @Override
+    public List<Patient> findAllByName(String name) {
+        return patientRepository.findByNameContainingIgnoreCaseAndActiveIs(name, true)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Patient> findAll() {
+        return patientRepository.findAll().stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
 }

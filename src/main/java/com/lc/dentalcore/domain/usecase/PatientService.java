@@ -9,6 +9,8 @@ import com.lc.dentalcore.domain.model.Patient;
 import com.lc.dentalcore.domain.spi.IPatientPersistencePort;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class PatientService implements IPatientServicePort {
 
@@ -33,6 +35,15 @@ public class PatientService implements IPatientServicePort {
         existsPatient.setBirthDate(patient.getBirthDate());
         existsPatient.setNotes(patient.getNotes());
         return patientPersistencePort.savePatient(existsPatient);
+    }
+
+    @Override
+    public List<Patient> findAll(String name) {
+
+        return  (name != null && !name.isBlank())
+                ? patientPersistencePort.findAllByName(name)
+                : patientPersistencePort.findAll();
+
     }
 
     private void validateUniquePatient(Patient patient) {
