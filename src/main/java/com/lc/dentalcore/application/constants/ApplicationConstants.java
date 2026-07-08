@@ -15,4 +15,7 @@ public class ApplicationConstants {
     public static final String MSG_APPOINTMENT_TIME_CAN_NOT_BE_NULL = "Appointment time cannot be null";
     public static final String MSG_TREATMENT_CAN_NOT_BE_BLANK = "Treatment cannot be blank";
     public static final String MSG_TREATMENT_SIZE = "Treatment must be between 3 and 100 characters";
+    public static final String MSG_APPOINTMENT_ID_REQUIRED = "Appointment ID is required";
+    public static final String MSG_TREATMENT_COST_REQUIRED = "Treatment cost is required";
+    public static final String MSG_AMOUNT_PAID_REQUIRED = "Amount paid is required";
 }

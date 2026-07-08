@@ -1,0 +1,21 @@
+package com.lc.dentalcore.application.handler;
+
+import com.lc.dentalcore.application.dto.PaymentDTO;
+import com.lc.dentalcore.application.dto.PaymentResponseDTO;
+import com.lc.dentalcore.application.mapper.IPaymentMapper;
+import com.lc.dentalcore.domain.api.IPaymentServicePort;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class PaymentHandler implements IPaymentHandler{
+
+    private final IPaymentServicePort paymentServicePort;
+    private final IPaymentMapper mapper;
+
+    @Override
+    public PaymentResponseDTO createPayment(PaymentDTO paymentDTO) {
+        return mapper.toDto(paymentServicePort.createPayment(mapper.toDomain(paymentDTO)))  ;
+    }
+}

@@ -3,9 +3,11 @@ package com.lc.dentalcore.infrastructure.config;
 import com.lc.dentalcore.domain.api.*;
 import com.lc.dentalcore.domain.spi.IAppointmentPersistencePort;
 import com.lc.dentalcore.domain.spi.IPatientPersistencePort;
+import com.lc.dentalcore.domain.spi.IPaymentPersistencePort;
 import com.lc.dentalcore.domain.spi.IUserPersistencePort;
 import com.lc.dentalcore.domain.usecase.AppointmentService;
 import com.lc.dentalcore.domain.usecase.PatientService;
+import com.lc.dentalcore.domain.usecase.PaymentService;
 import com.lc.dentalcore.domain.usecase.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +23,7 @@ public class BeanConfiguration {
     private ITokenServicePort tokenServicePort;
     private IPatientPersistencePort patientPersistencePort;
     private IAppointmentPersistencePort appointmentPersistencePort;
+    private IPaymentPersistencePort paymentPersistencePort;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -42,4 +45,8 @@ public class BeanConfiguration {
         return new AppointmentService(appointmentPersistencePort, patientPersistencePort);
     }
 
+    @Bean
+    public IPaymentServicePort paymentServicePort(){
+        return new PaymentService(paymentPersistencePort, appointmentPersistencePort);
+    }
 }
