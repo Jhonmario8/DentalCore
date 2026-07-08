@@ -7,6 +7,8 @@ import com.lc.dentalcore.domain.api.IPaymentServicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 @RequiredArgsConstructor
 public class PaymentHandler implements IPaymentHandler{
@@ -17,5 +19,10 @@ public class PaymentHandler implements IPaymentHandler{
     @Override
     public PaymentResponseDTO createPayment(PaymentDTO paymentDTO) {
         return mapper.toDto(paymentServicePort.createPayment(mapper.toDomain(paymentDTO)))  ;
+    }
+
+    @Override
+    public PaymentResponseDTO updateMount(Long id, BigDecimal mount) {
+        return mapper.toDto(paymentServicePort.updateMount(id, mount));
     }
 }

@@ -26,4 +26,5 @@ public class DomainConstants {
     public static final String FUTURE_APPOINTMENT = "Cannot mark an appointment as attended if it is scheduled for a future date";
     public static final String MSG_INVALID_PAYMENT_AMOUNT = "Payment amount must be greater than or equal to 0 and less than or equal to the treatment cost";
     public static final String PAYMENT_ALREADY_EXIST = "Payment already exists for this appointment";
+    public static final String PAYMENT_NOT_FOUND = "Payment not found";
 }

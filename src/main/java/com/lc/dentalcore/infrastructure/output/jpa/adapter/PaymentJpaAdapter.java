@@ -26,4 +26,9 @@ public class PaymentJpaAdapter implements IPaymentPersistencePort {
     public Optional<Payment> findByAppointmentId(Long id) {
         return paymentRepository.findByAppointmentId(id).map(mapper::toDomain);
     }
+
+    @Override
+    public Optional<Payment> findById(Long id) {
+        return paymentRepository.findById(id).map(mapper::toDomain);
+    }
 }

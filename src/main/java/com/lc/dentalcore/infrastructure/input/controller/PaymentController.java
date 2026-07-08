@@ -6,10 +6,9 @@ import com.lc.dentalcore.application.handler.IPaymentHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/payments")
@@ -24,5 +23,9 @@ public class PaymentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
-
+    @PutMapping("/{id}/amount")
+    public ResponseEntity<PaymentResponseDTO> updateMount(@PathVariable Long id, @RequestParam BigDecimal mount) {
+        PaymentResponseDTO responseDTO = paymentHandler.updateMount(id, mount);
+        return ResponseEntity.ok(responseDTO);
+    }
 }

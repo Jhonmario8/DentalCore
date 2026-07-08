@@ -4,6 +4,7 @@ import com.lc.dentalcore.domain.api.IPaymentServicePort;
 import com.lc.dentalcore.domain.exception.AppointmentNotFoundException;
 import com.lc.dentalcore.domain.exception.InvalidPaymentAmountException;
 import com.lc.dentalcore.domain.exception.PaymentAlreadyExistException;
+import com.lc.dentalcore.domain.exception.PaymentNotFoundException;
 import com.lc.dentalcore.domain.model.Appointment;
 import com.lc.dentalcore.domain.model.Payment;
 import com.lc.dentalcore.domain.model.PaymentStatus;
@@ -39,15 +40,40 @@ public class PaymentService implements IPaymentServicePort {
             throw new InvalidPaymentAmountException();
         }
         payment.setBalance(payment.getTreatmentCost().subtract(payment.getAmountPaid()));
-        if (payment.getBalance().compareTo(payment.getTreatmentCost()) == 0){
-            payment.setStatus(PaymentStatus.PENDING);
-        } else if (payment.getBalance().compareTo(BigDecimal.ZERO) == 0) {
+        return savePayment(payment);
+    }
 
+
+
+    @Override
+    public Payment updateMount(Long id, BigDecimal mount) {
+        Payment payment = paymentPersistencePort.findById(id)
+                .orElseThrow(PaymentNotFoundException::new);
+
+        BigDecimal newAmountPaid = payment.getAmountPaid().add(mount);
+        if (newAmountPaid.compareTo(payment.getTreatmentCost()) > 0) {
+            throw new InvalidPaymentAmountException();
+        }
+        payment.setAmountPaid(newAmountPaid);
+        payment.setBalance(payment.getTreatmentCost().subtract(newAmountPaid));
+        return savePayment(payment);
+
+    }
+
+    private Payment savePayment(Payment payment) {
+
+        if (payment.getBalance().compareTo(payment.getTreatmentCost()) == 0) {
+            payment.setStatus(PaymentStatus.PENDING);
+
+        } else if (payment.getBalance().compareTo(BigDecimal.ZERO) == 0) {
             payment.setStatus(PaymentStatus.PAID);
-        }else {
+
+        } else {
             payment.setStatus(PaymentStatus.PARTIAL);
         }
+
         payment.setPaymentDate(LocalDateTime.now());
+
         return paymentPersistencePort.savePayment(payment);
     }
 }

@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface IPaymentPersistencePort {
     Payment savePayment(Payment payment);
     Optional<Payment> findByAppointmentId(Long id);
+    Optional<Payment> findById(Long id);
 }
