@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +28,11 @@ public class AppointmentJpaAdapter implements IAppointmentPersistencePort {
                 .stream()
                 .map(mapper::toDomain)
                 .toList();
+    }
+
+    @Override
+    public Optional<Appointment> findById(Long id) {
+        return repository.findById(id)
+                .map(mapper::toDomain);
     }
 }

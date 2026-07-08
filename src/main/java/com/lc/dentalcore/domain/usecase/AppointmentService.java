@@ -1,9 +1,8 @@
 package com.lc.dentalcore.domain.usecase;
 
 import com.lc.dentalcore.domain.api.IAppointmentServicePort;
-import com.lc.dentalcore.domain.exception.DuplicateAppointmentException;
-import com.lc.dentalcore.domain.exception.PastAppointmentTimeException;
-import com.lc.dentalcore.domain.exception.PatientNotFoundException;
+import com.lc.dentalcore.domain.constants.DomainConstants;
+import com.lc.dentalcore.domain.exception.*;
 import com.lc.dentalcore.domain.model.Appointment;
 import com.lc.dentalcore.domain.model.AppointmentStatus;
 import com.lc.dentalcore.domain.model.Patient;
@@ -38,5 +37,36 @@ public class AppointmentService implements IAppointmentServicePort {
         }
         appointment.setStatus(AppointmentStatus.PENDING);
         return appointmentPersistencePort.saveAppointment(appointment);
+    }
+
+    @Override
+    public Appointment updateStatus(Long id, AppointmentStatus status) {
+        Appointment appointment = appointmentPersistencePort.findById(id).orElseThrow(AppointmentNotFoundException::new);
+        validateStatus(appointment.getStatus(), status);
+        if (status.equals(AppointmentStatus.ATTENDED)){
+            if (appointment.getAppointmentDate().isAfter(LocalDate.now())){
+                throw new FutureAppointmentException();
+            }
+        }
+        appointment.setStatus(status);
+        return appointmentPersistencePort.saveAppointment(appointment);
+    }
+
+    private void validateStatus(AppointmentStatus currentStatus, AppointmentStatus newStatus) {
+        if (newStatus == null) {
+            throw new BadRequest(DomainConstants.MSG_STATUS_NULL);
+        }
+        if (currentStatus.equals(AppointmentStatus.PENDING) && newStatus.equals(AppointmentStatus.ATTENDED)) {
+            throw new ConflictException(DomainConstants.MSG_ONLY_CONFIRMED_CAN_BE_ATTENDED);
+        }
+        if (currentStatus.equals(AppointmentStatus.CONFIRMED) && newStatus.equals(AppointmentStatus.PENDING)) {
+            throw new ConflictException(DomainConstants.MSG_CANNOT_GO_BACK_TO_PENDING);
+        }
+        if (currentStatus.equals(AppointmentStatus.ATTENDED)){
+            throw new ConflictException(DomainConstants.MSG_CANNOT_UPDATE_ATTENDED);
+        }
+        if (currentStatus.equals(AppointmentStatus.CANCELLED)){
+            throw new ConflictException(DomainConstants.MSG_CANNOT_UPDATE_CANCELLED);
+        }
     }
 }

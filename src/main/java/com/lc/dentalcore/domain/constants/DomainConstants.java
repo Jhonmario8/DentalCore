@@ -17,4 +17,11 @@ public class DomainConstants {
     public static final String PATIENT_ALREADY_INACTIVE = "Patient is already inactive";
     public static final String PAST_APPOINTMENT_TIME = "Appointment time cannot be in the past";
     public static final String DUPLICATE_APPOINTMENT = "Duplicate appointment at the same time";
+    public static final String APPOINTMENT_NOT_FOUND = "Appointment not found";
+    public static final String MSG_STATUS_NULL = "Status cannot be null";
+    public static final String MSG_ONLY_CONFIRMED_CAN_BE_ATTENDED = "Only confirmed appointments can be marked as attended";
+    public static final String MSG_CANNOT_GO_BACK_TO_PENDING = "Cannot change status from confirmed back to pending";
+    public static final String MSG_CANNOT_UPDATE_CANCELLED = "Cannot update a cancelled appointment";
+    public static final String MSG_CANNOT_UPDATE_ATTENDED = "Cannot update an attended appointment";
+    public static final String FUTURE_APPOINTMENT = "Cannot mark an appointment as attended if it is scheduled for a future date";
 }

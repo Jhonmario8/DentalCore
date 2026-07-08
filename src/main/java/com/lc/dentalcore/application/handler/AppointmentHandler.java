@@ -3,6 +3,7 @@ package com.lc.dentalcore.application.handler;
 import com.lc.dentalcore.application.dto.AppointmentDTO;
 import com.lc.dentalcore.application.mapper.IAppointmentMapper;
 import com.lc.dentalcore.domain.api.IAppointmentServicePort;
+import com.lc.dentalcore.domain.model.AppointmentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,11 @@ public class AppointmentHandler implements IAppointmentHandler {
     @Override
     public AppointmentDTO createAppointment(AppointmentDTO appointmentDTO) {
         return mapper.toDto(appointmentServicePort.createAppointment(mapper.toDomain(appointmentDTO))) ;
+    }
+
+    @Override
+    public AppointmentDTO updateStatus(Long id, AppointmentStatus status) {
+        return mapper.toDto(appointmentServicePort.updateStatus(id, status));
     }
 
 }
