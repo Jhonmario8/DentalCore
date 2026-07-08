@@ -1,10 +1,7 @@
 package com.lc.dentalcore.infrastructure.config;
 
 import com.lc.dentalcore.domain.api.*;
-import com.lc.dentalcore.domain.spi.IAppointmentPersistencePort;
-import com.lc.dentalcore.domain.spi.IPatientPersistencePort;
-import com.lc.dentalcore.domain.spi.IPaymentPersistencePort;
-import com.lc.dentalcore.domain.spi.IUserPersistencePort;
+import com.lc.dentalcore.domain.spi.*;
 import com.lc.dentalcore.domain.usecase.AppointmentService;
 import com.lc.dentalcore.domain.usecase.PatientService;
 import com.lc.dentalcore.domain.usecase.PaymentService;
@@ -19,11 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @AllArgsConstructor
 public class BeanConfiguration {
 
-    private IUserPersistencePort userPersistencePort;
-    private ITokenServicePort tokenServicePort;
-    private IPatientPersistencePort patientPersistencePort;
-    private IAppointmentPersistencePort appointmentPersistencePort;
-    private IPaymentPersistencePort paymentPersistencePort;
+    private final IUserPersistencePort userPersistencePort;
+    private final ITokenServicePort tokenServicePort;
+    private final IPatientPersistencePort patientPersistencePort;
+    private final IAppointmentPersistencePort appointmentPersistencePort;
+    private final IPaymentPersistencePort paymentPersistencePort;
+    private final IPaymentTransactionPersistencePort paymentTransactionPersistencePort;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -47,6 +45,6 @@ public class BeanConfiguration {
 
     @Bean
     public IPaymentServicePort paymentServicePort(){
-        return new PaymentService(paymentPersistencePort, appointmentPersistencePort, patientPersistencePort);
+        return new PaymentService(paymentPersistencePort, appointmentPersistencePort, patientPersistencePort, paymentTransactionPersistencePort);
     }
 }

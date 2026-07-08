@@ -6,6 +6,7 @@ import com.lc.dentalcore.application.dto.PaymentResponseDTO;
 import com.lc.dentalcore.application.mapper.IPaymentHistoryMapper;
 import com.lc.dentalcore.application.mapper.IPaymentMapper;
 import com.lc.dentalcore.domain.api.IPaymentServicePort;
+import com.lc.dentalcore.domain.model.DashboardSummary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,10 @@ public class PaymentHandler implements IPaymentHandler{
     @Override
     public PaymentHistoryDTO getAllByPatientId(Long patientId) {
         return historyMapper.toDto(paymentServicePort.getAllByPatientId(patientId));
+    }
+
+    @Override
+    public DashboardSummary getDashboardSummary() {
+        return paymentServicePort.getDashboardSummary();
     }
 }

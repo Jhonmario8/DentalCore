@@ -6,12 +6,16 @@ import com.lc.dentalcore.domain.model.*;
 import com.lc.dentalcore.domain.spi.IAppointmentPersistencePort;
 import com.lc.dentalcore.domain.spi.IPatientPersistencePort;
 import com.lc.dentalcore.domain.spi.IPaymentPersistencePort;
+import com.lc.dentalcore.domain.spi.IPaymentTransactionPersistencePort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -20,6 +24,7 @@ public class PaymentService implements IPaymentServicePort {
     private final IPaymentPersistencePort paymentPersistencePort;
     private final IAppointmentPersistencePort appointmentPersistencePort;
     private final IPatientPersistencePort patientPersistencePort;
+    private final IPaymentTransactionPersistencePort paymentTransactionPersistencePort;
 
 
     @Override
@@ -38,13 +43,22 @@ public class PaymentService implements IPaymentServicePort {
             throw new InvalidPaymentAmountException();
         }
         payment.setBalance(payment.getTreatmentCost().subtract(payment.getAmountPaid()));
-        return savePayment(payment);
+
+        Payment payment1 = savePayment(payment);
+
+        registerTransaction(payment1.getId(), payment1.getAmountPaid());
+
+        return payment1;
     }
 
 
 
     @Override
+    @Transactional
     public Payment updateMount(Long id, BigDecimal mount) {
+        if (mount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new InvalidPaymentAmountException();
+        }
         Payment payment = paymentPersistencePort.findById(id)
                 .orElseThrow(PaymentNotFoundException::new);
 
@@ -52,10 +66,14 @@ public class PaymentService implements IPaymentServicePort {
         if (newAmountPaid.compareTo(payment.getTreatmentCost()) > 0) {
             throw new InvalidPaymentAmountException();
         }
+
         payment.setAmountPaid(newAmountPaid);
         payment.setBalance(payment.getTreatmentCost().subtract(newAmountPaid));
-        return savePayment(payment);
+        Payment payment1 = savePayment(payment);
 
+        registerTransaction(payment1.getId(), mount);
+
+        return payment1;
     }
 
     @Override
@@ -70,6 +88,34 @@ public class PaymentService implements IPaymentServicePort {
         return new PaymentHistory(payments,balance);
     }
 
+    @Override
+    public DashboardSummary getDashboardSummary() {
+        List<Appointment> appointments = appointmentPersistencePort.findAllByDate(LocalDate.now());
+
+        long totalAppointments = appointments.size();
+
+        Map<AppointmentStatus, Long> appointmentsByStatus = appointments.stream()
+                .collect(Collectors.groupingBy(Appointment::getStatus, Collectors.counting()));
+
+        List<PaymentTransaction> transactions = paymentTransactionPersistencePort.findAllByDate(LocalDate.now());
+
+        BigDecimal totalCollected = transactions.stream()
+                .map(PaymentTransaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new DashboardSummary(totalAppointments, appointmentsByStatus, totalCollected);
+    }
+
+    private void registerTransaction(Long paymentId, BigDecimal amount) {
+
+        PaymentTransaction transaction = new PaymentTransaction();
+
+        transaction.setPaymentId(paymentId);
+        transaction.setAmount(amount);
+        transaction.setTransactionDate(LocalDateTime.now());
+
+        paymentTransactionPersistencePort.savePaymentTransaction(transaction);
+    }
     private Payment savePayment(Payment payment) {
 
         if (payment.getBalance().compareTo(payment.getTreatmentCost()) == 0) {
@@ -81,9 +127,6 @@ public class PaymentService implements IPaymentServicePort {
         } else {
             payment.setStatus(PaymentStatus.PARTIAL);
         }
-
-        payment.setPaymentDate(LocalDateTime.now());
-
         return paymentPersistencePort.savePayment(payment);
     }
 }

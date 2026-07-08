@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "payments")
@@ -32,6 +32,5 @@ public class PaymentEntity {
     private BigDecimal balance;
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
-    @Column(name = "payment_date")
-    private LocalDateTime paymentDate;
+
 }

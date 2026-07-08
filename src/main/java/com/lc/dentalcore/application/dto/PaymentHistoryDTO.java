@@ -16,6 +16,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaymentHistoryDTO {
 
-    private List<PaymentDTO> payments;
+    private List<PaymentResponseDTO> payments;
     private BigDecimal totalPendingBalance;
 }
