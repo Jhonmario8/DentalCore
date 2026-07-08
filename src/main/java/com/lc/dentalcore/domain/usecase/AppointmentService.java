@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 public class AppointmentService implements IAppointmentServicePort {
@@ -50,6 +51,11 @@ public class AppointmentService implements IAppointmentServicePort {
         }
         appointment.setStatus(status);
         return appointmentPersistencePort.saveAppointment(appointment);
+    }
+
+    @Override
+    public List<Appointment> findAllByDate(LocalDate date) {
+        return appointmentPersistencePort.findAllByDate(Objects.requireNonNullElseGet(date, LocalDate::now));
     }
 
     private void validateStatus(AppointmentStatus currentStatus, AppointmentStatus newStatus) {

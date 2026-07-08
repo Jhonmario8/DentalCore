@@ -7,6 +7,9 @@ import com.lc.dentalcore.domain.model.AppointmentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AppointmentHandler implements IAppointmentHandler {
@@ -23,5 +26,14 @@ public class AppointmentHandler implements IAppointmentHandler {
     public AppointmentDTO updateStatus(Long id, AppointmentStatus status) {
         return mapper.toDto(appointmentServicePort.updateStatus(id, status));
     }
+
+    @Override
+    public List<AppointmentDTO> findAllByDate(LocalDate date) {
+        return appointmentServicePort.findAllByDate(date)
+                .stream()
+                .map(mapper::toDto)
+                .toList();
+    }
+
 
 }

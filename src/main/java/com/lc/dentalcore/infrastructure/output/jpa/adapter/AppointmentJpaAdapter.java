@@ -7,6 +7,7 @@ import com.lc.dentalcore.infrastructure.output.jpa.repository.IAppointmentReposi
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,5 +35,13 @@ public class AppointmentJpaAdapter implements IAppointmentPersistencePort {
     public Optional<Appointment> findById(Long id) {
         return repository.findById(id)
                 .map(mapper::toDomain);
+    }
+
+    @Override
+    public List<Appointment> findAllByDate(LocalDate date) {
+        return repository.findAllByAppointmentDateOrderByAppointmentTimeAsc(date)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
     }
 }
