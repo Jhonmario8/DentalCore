@@ -47,6 +47,6 @@ public class BeanConfiguration {
 
     @Bean
     public IPaymentServicePort paymentServicePort(){
-        return new PaymentService(paymentPersistencePort, appointmentPersistencePort);
+        return new PaymentService(paymentPersistencePort, appointmentPersistencePort, patientPersistencePort);
     }
 }

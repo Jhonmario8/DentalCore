@@ -7,6 +7,7 @@ import com.lc.dentalcore.infrastructure.output.jpa.repository.IPaymentRepository
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +31,10 @@ public class PaymentJpaAdapter implements IPaymentPersistencePort {
     @Override
     public Optional<Payment> findById(Long id) {
         return paymentRepository.findById(id).map(mapper::toDomain);
+    }
+
+    @Override
+    public List<Payment> findAllByPatientId(Long patientId) {
+        return paymentRepository.findAllByPatientIdOrderByPaymentDateDesc(patientId).stream().map(mapper::toDomain).toList();
     }
 }

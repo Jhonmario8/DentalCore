@@ -1,20 +1,17 @@
 package com.lc.dentalcore.domain.usecase;
 
 import com.lc.dentalcore.domain.api.IPaymentServicePort;
-import com.lc.dentalcore.domain.exception.AppointmentNotFoundException;
-import com.lc.dentalcore.domain.exception.InvalidPaymentAmountException;
-import com.lc.dentalcore.domain.exception.PaymentAlreadyExistException;
-import com.lc.dentalcore.domain.exception.PaymentNotFoundException;
-import com.lc.dentalcore.domain.model.Appointment;
-import com.lc.dentalcore.domain.model.Payment;
-import com.lc.dentalcore.domain.model.PaymentStatus;
+import com.lc.dentalcore.domain.exception.*;
+import com.lc.dentalcore.domain.model.*;
 import com.lc.dentalcore.domain.spi.IAppointmentPersistencePort;
+import com.lc.dentalcore.domain.spi.IPatientPersistencePort;
 import com.lc.dentalcore.domain.spi.IPaymentPersistencePort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -22,6 +19,7 @@ public class PaymentService implements IPaymentServicePort {
 
     private final IPaymentPersistencePort paymentPersistencePort;
     private final IAppointmentPersistencePort appointmentPersistencePort;
+    private final IPatientPersistencePort patientPersistencePort;
 
 
     @Override
@@ -58,6 +56,18 @@ public class PaymentService implements IPaymentServicePort {
         payment.setBalance(payment.getTreatmentCost().subtract(newAmountPaid));
         return savePayment(payment);
 
+    }
+
+    @Override
+    public PaymentHistory getAllByPatientId(Long patientId) {
+        Patient patient = patientPersistencePort.findById(patientId)
+                .orElseThrow(PatientNotFoundException::new);
+        List<Payment> payments = paymentPersistencePort.findAllByPatientId(patient.getId());
+        BigDecimal balance = payments.stream()
+                .map(Payment::getBalance)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new PaymentHistory(payments,balance);
     }
 
     private Payment savePayment(Payment payment) {

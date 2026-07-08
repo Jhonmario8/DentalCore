@@ -1,6 +1,7 @@
 package com.lc.dentalcore.infrastructure.input.controller;
 
 import com.lc.dentalcore.application.dto.PaymentDTO;
+import com.lc.dentalcore.application.dto.PaymentHistoryDTO;
 import com.lc.dentalcore.application.dto.PaymentResponseDTO;
 import com.lc.dentalcore.application.handler.IPaymentHandler;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,10 @@ public class PaymentController {
     public ResponseEntity<PaymentResponseDTO> updateMount(@PathVariable Long id, @RequestParam BigDecimal mount) {
         PaymentResponseDTO responseDTO = paymentHandler.updateMount(id, mount);
         return ResponseEntity.ok(responseDTO);
+    }
+
+    @GetMapping("/patient/{patientId}")
+    public ResponseEntity<PaymentHistoryDTO> getAllByPatientId(@PathVariable Long patientId) {
+        return ResponseEntity.ok(paymentHandler.getAllByPatientId(patientId));
     }
 }
