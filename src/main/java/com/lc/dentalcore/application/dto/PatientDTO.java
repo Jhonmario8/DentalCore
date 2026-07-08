@@ -19,6 +19,7 @@ import java.time.LocalDate;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PatientDTO {
 
+    private Long id;
     @NotBlank(message = ApplicationConstants.MSG_NAME_NOT_BLANK)
     @Size(min = 3, max = 100, message = ApplicationConstants.MSG_NAME_SIZE_BETWEEN)
     private String name;

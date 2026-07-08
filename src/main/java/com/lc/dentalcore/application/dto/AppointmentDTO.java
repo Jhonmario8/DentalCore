@@ -20,7 +20,7 @@ import java.time.LocalTime;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AppointmentDTO {
-
+    private Long id;
     @NotNull(message = ApplicationConstants.MSG_PATIENT_ID_CAN_NOT_BE_NULL)
     private Long patientId;
     @NotNull(message = ApplicationConstants.MSG_APPOINTMENT_DATE_CAN_NOT_BE_NULL)

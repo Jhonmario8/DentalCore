@@ -17,7 +17,6 @@ import java.math.BigDecimal;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaymentDTO {
-
     @NotNull(message = ApplicationConstants.MSG_APPOINTMENT_ID_REQUIRED)
     private Long appointmentId;
     @NotNull(message = ApplicationConstants.MSG_TREATMENT_COST_REQUIRED)

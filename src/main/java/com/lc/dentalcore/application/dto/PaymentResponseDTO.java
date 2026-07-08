@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaymentResponseDTO {
 
+    private Long id;
     private Long appointmentId;
     private Long patientId;
     private BigDecimal treatmentCost;
