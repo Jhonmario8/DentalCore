@@ -15,4 +15,6 @@ public class DomainConstants {
     public static final String MSG_PHONE_NUMBER_ALREADY_EXISTS = "Phone number already exists";
     public static final String PATIENT_NOT_FOUND = "Patient not found";
     public static final String PATIENT_ALREADY_INACTIVE = "Patient is already inactive";
+    public static final String PAST_APPOINTMENT_TIME = "Appointment time cannot be in the past";
+    public static final String DUPLICATE_APPOINTMENT = "Duplicate appointment at the same time";
 }

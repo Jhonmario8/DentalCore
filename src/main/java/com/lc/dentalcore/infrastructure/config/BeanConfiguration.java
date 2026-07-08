@@ -1,11 +1,10 @@
 package com.lc.dentalcore.infrastructure.config;
 
-import com.lc.dentalcore.domain.api.IPasswordServicePort;
-import com.lc.dentalcore.domain.api.IPatientServicePort;
-import com.lc.dentalcore.domain.api.ITokenServicePort;
-import com.lc.dentalcore.domain.api.IUserServicePort;
+import com.lc.dentalcore.domain.api.*;
+import com.lc.dentalcore.domain.spi.IAppointmentPersistencePort;
 import com.lc.dentalcore.domain.spi.IPatientPersistencePort;
 import com.lc.dentalcore.domain.spi.IUserPersistencePort;
+import com.lc.dentalcore.domain.usecase.AppointmentService;
 import com.lc.dentalcore.domain.usecase.PatientService;
 import com.lc.dentalcore.domain.usecase.UserService;
 import lombok.AllArgsConstructor;
@@ -21,6 +20,7 @@ public class BeanConfiguration {
     private IUserPersistencePort userPersistencePort;
     private ITokenServicePort tokenServicePort;
     private IPatientPersistencePort patientPersistencePort;
+    private IAppointmentPersistencePort appointmentPersistencePort;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,4 +36,10 @@ public class BeanConfiguration {
     public IPatientServicePort patientServicePort(){
         return new PatientService(patientPersistencePort);
     }
+
+    @Bean
+    public IAppointmentServicePort appointmentServicePort(){
+        return new AppointmentService(appointmentPersistencePort, patientPersistencePort);
+    }
+
 }
