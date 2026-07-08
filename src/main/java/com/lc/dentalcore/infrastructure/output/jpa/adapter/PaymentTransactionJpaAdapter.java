@@ -30,4 +30,10 @@ public class PaymentTransactionJpaAdapter implements IPaymentTransactionPersiste
         return paymentTransactionRepository.findAllByTransactionDateGreaterThanEqualAndTransactionDateLessThan(startDate,endDate)
                 .stream().map(mapper::toDomain).toList() ;
     }
+
+    @Override
+    public List<PaymentTransaction> findAllByPaymentId(Long paymentId) {
+        return paymentTransactionRepository.findAllByPaymentId(paymentId)
+                .stream().map(mapper::toDomain).toList();
+    }
 }

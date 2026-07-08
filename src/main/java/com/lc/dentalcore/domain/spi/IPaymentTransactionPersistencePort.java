@@ -9,5 +9,6 @@ public interface IPaymentTransactionPersistencePort {
 
     void savePaymentTransaction(PaymentTransaction paymentTransaction);
     List<PaymentTransaction> findAllByDate(LocalDate date);
+    List<PaymentTransaction> findAllByPaymentId(Long paymentId);
 
 }

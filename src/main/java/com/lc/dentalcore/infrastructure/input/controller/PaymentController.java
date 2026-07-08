@@ -5,12 +5,14 @@ import com.lc.dentalcore.application.dto.PaymentHistoryDTO;
 import com.lc.dentalcore.application.dto.PaymentResponseDTO;
 import com.lc.dentalcore.application.handler.IPaymentHandler;
 import com.lc.dentalcore.domain.model.DashboardSummary;
+import com.lc.dentalcore.domain.model.PaymentTransaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 
@@ -39,5 +41,9 @@ public class PaymentController {
     @GetMapping("/dashboard/summary")
     public ResponseEntity<DashboardSummary> getDashboardSummary() {
         return ResponseEntity.ok(paymentHandler.getDashboardSummary());
+    }
+    @GetMapping("/payments/{paymentId}/transactions")
+    public ResponseEntity<List<PaymentTransaction>> getAllTransactionsByPaymentId(@PathVariable Long paymentId) {
+        return ResponseEntity.ok(paymentHandler.getAllTransactionsByPaymentId(paymentId));
     }
 }

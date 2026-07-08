@@ -106,6 +106,11 @@ public class PaymentService implements IPaymentServicePort {
         return new DashboardSummary(totalAppointments, appointmentsByStatus, totalCollected);
     }
 
+    @Override
+    public List<PaymentTransaction> getAllTransactionsByPaymentId(Long paymentId) {
+        return paymentTransactionPersistencePort.findAllByPaymentId(paymentId);
+    }
+
     private void registerTransaction(Long paymentId, BigDecimal amount) {
 
         PaymentTransaction transaction = new PaymentTransaction();

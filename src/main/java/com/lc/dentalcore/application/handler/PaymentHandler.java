@@ -7,10 +7,12 @@ import com.lc.dentalcore.application.mapper.IPaymentHistoryMapper;
 import com.lc.dentalcore.application.mapper.IPaymentMapper;
 import com.lc.dentalcore.domain.api.IPaymentServicePort;
 import com.lc.dentalcore.domain.model.DashboardSummary;
+import com.lc.dentalcore.domain.model.PaymentTransaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +40,10 @@ public class PaymentHandler implements IPaymentHandler{
     @Override
     public DashboardSummary getDashboardSummary() {
         return paymentServicePort.getDashboardSummary();
+    }
+
+    @Override
+    public List<PaymentTransaction> getAllTransactionsByPaymentId(Long paymentId) {
+        return paymentServicePort.getAllTransactionsByPaymentId(paymentId);
     }
 }

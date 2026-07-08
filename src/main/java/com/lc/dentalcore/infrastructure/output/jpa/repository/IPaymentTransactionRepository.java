@@ -11,5 +11,5 @@ import java.util.List;
 public interface IPaymentTransactionRepository extends JpaRepository<PaymentTransactionEntity, Long > {
 
     List<PaymentTransactionEntity> findAllByTransactionDateGreaterThanEqualAndTransactionDateLessThan(LocalDateTime startDate, LocalDateTime endDate);
-
+    List<PaymentTransactionEntity> findAllByPaymentId(Long paymentId);
 }
