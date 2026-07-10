@@ -56,7 +56,7 @@ public class PatientService implements IPatientServicePort {
     private void validateUniquePatient(Patient patient) {
         if (patient.getEmail() != null) {
             if (patientPersistencePort.findByEmail(patient.getEmail()).isPresent()) {
-                throw new EmailAlreadyExistsException();
+                throw new UsernameAlreadyExistsException();
             }
         }
         if (patientPersistencePort.findByIdentificationNumber(patient.getIdentificationNumber()).isPresent()) {

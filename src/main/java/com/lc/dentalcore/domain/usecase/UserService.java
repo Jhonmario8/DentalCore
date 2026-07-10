@@ -3,7 +3,7 @@ package com.lc.dentalcore.domain.usecase;
 import com.lc.dentalcore.domain.api.IPasswordServicePort;
 import com.lc.dentalcore.domain.api.ITokenServicePort;
 import com.lc.dentalcore.domain.api.IUserServicePort;
-import com.lc.dentalcore.domain.exception.EmailAlreadyExistsException;
+import com.lc.dentalcore.domain.exception.UsernameAlreadyExistsException;
 import com.lc.dentalcore.domain.exception.InvalidCredentialsException;
 import com.lc.dentalcore.domain.model.User;
 import com.lc.dentalcore.domain.spi.IUserPersistencePort;
@@ -19,8 +19,8 @@ public class UserService implements IUserServicePort {
     @Override
     public void createUser(User user) {
         user.validate();
-        userPersistencePort.findByEmail(user.getEmail()).ifPresent(u -> {
-            throw new EmailAlreadyExistsException();
+        userPersistencePort.findByUsername(user.getUsername()).ifPresent(u -> {
+            throw new UsernameAlreadyExistsException();
         });
         user.encodePassword(passwordServicePort);
         userPersistencePort.saveUser(user);
@@ -29,7 +29,7 @@ public class UserService implements IUserServicePort {
     @Override
     public String login(User user) {
         user.validate();
-        User existingUser = userPersistencePort.findByEmail(user.getEmail())
+        User existingUser = userPersistencePort.findByUsername(user.getUsername())
                 .orElseThrow(InvalidCredentialsException::new);
 
         if (!passwordServicePort.matches(user.getPassword(), existingUser.getPassword())) {

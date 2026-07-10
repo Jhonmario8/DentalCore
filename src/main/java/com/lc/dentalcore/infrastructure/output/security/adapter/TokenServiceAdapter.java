@@ -28,7 +28,7 @@ public class TokenServiceAdapter implements ITokenServicePort {
                 .claims(Map.of(
                         DomainConstants.KEY_USER_ID, user.getId()
                 ))
-                .subject(user.getEmail())
+                .subject(user.getUsername())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(getSigningKey())

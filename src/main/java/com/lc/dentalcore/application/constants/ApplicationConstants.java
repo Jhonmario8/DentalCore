@@ -1,7 +1,7 @@
 package com.lc.dentalcore.application.constants;
 
 public class ApplicationConstants {
-    public static final String MSG_EMAIL_REQUIRED = "Email is required";
+
     public static final String MSG_PASSWORD_REQUIRED = "Password is required";
     public static final String MSG_NAME_NOT_BLANK = "Name cannot be blank";
     public static final String MSG_PHONE_NOT_BLANK = "Phone number cannot be blank";
@@ -18,4 +18,5 @@ public class ApplicationConstants {
     public static final String MSG_APPOINTMENT_ID_REQUIRED = "Appointment ID is required";
     public static final String MSG_TREATMENT_COST_REQUIRED = "Treatment cost is required";
     public static final String MSG_AMOUNT_PAID_REQUIRED = "Amount paid is required";
+    public static final String MSG_USERNAME_REQUIRED = "Username is required";
 }

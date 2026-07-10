@@ -11,6 +11,7 @@ import com.lc.dentalcore.domain.spi.IPatientPersistencePort;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,14 +28,13 @@ public class AppointmentService implements IAppointmentServicePort {
         if (!patient.getActive()){
             throw new PatientNotFoundException();
         }
-        if (appointment.getAppointmentDate().isBefore(LocalDate.now())){
+        if ((appointment.getAppointmentDate().isBefore(LocalDate.now())) ||  (appointment.getAppointmentDate().equals(LocalDate.now()) && appointment.getAppointmentTime().isBefore(LocalTime.now())) ){
             throw new PastAppointmentTimeException();
         }
-        List<Appointment> appointments = appointmentPersistencePort.findAll();
-        for (Appointment ap : appointments) {
-           if (ap.getAppointmentDate().equals(appointment.getAppointmentDate()) && ap.getPatientId().equals(appointment.getPatientId())) {
-               throw new DuplicateAppointmentException();
-           }
+        if (appointmentPersistencePort.existsByDateAndTime(
+                appointment.getAppointmentDate(),
+                appointment.getAppointmentTime())) {
+            throw new DuplicateAppointmentException();
         }
         appointment.setStatus(AppointmentStatus.PENDING);
         return appointmentPersistencePort.saveAppointment(appointment);

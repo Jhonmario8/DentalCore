@@ -14,8 +14,8 @@ import lombok.Setter;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
-    @NotBlank(message = ApplicationConstants.MSG_EMAIL_REQUIRED)
-    private String email;
+    @NotBlank(message = ApplicationConstants.MSG_USERNAME_REQUIRED)
+    private String username;
     @NotBlank(message = ApplicationConstants.MSG_PASSWORD_REQUIRED)
     private String password;
 

@@ -6,7 +6,6 @@ public class DomainConstants {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String INVALID_EMAIL_ADDRESS = "Invalid email address";
     public static final String INVALID_PASSWORD = "Invalid password";
-    public static final String MSG_EMAIL_ALREADY_EXISTS = "Email already exists";
     public static final String MSG_INVALID_CREDENTIALS = "Invalid credentials";
     public static final String MSG_PASSWORD_CANNOT_BE_NULL_OR_EMPTY = "Password cannot be null or empty.";
     public static final String INVALID_PHONE_NUMBER = "Invalid phone number";
@@ -27,4 +26,5 @@ public class DomainConstants {
     public static final String MSG_INVALID_PAYMENT_AMOUNT = "Payment amount must be greater than or equal to 0 and less than or equal to the treatment cost";
     public static final String PAYMENT_ALREADY_EXIST = "Payment already exists for this appointment";
     public static final String PAYMENT_NOT_FOUND = "Payment not found";
+    public static final String MSG_USERNAME_ALREADY_EXISTS = "Username already exists";
 }

@@ -18,7 +18,7 @@ public class UserEntity {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String username;
     private String password;
     private Boolean active;
 

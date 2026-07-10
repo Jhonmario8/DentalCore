@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,13 +24,6 @@ public class AppointmentJpaAdapter implements IAppointmentPersistencePort {
         return mapper.toDomain(repository.save(mapper.toEntity(appointment)));
     }
 
-    @Override
-    public List<Appointment> findAll() {
-        return repository.findAll()
-                .stream()
-                .map(mapper::toDomain)
-                .toList();
-    }
 
     @Override
     public Optional<Appointment> findById(Long id) {
@@ -43,5 +37,10 @@ public class AppointmentJpaAdapter implements IAppointmentPersistencePort {
                 .stream()
                 .map(mapper::toDomain)
                 .toList();
+    }
+
+    @Override
+    public boolean existsByDateAndTime(LocalDate date, LocalTime time) {
+        return repository.existsByAppointmentDateAndAppointmentTime(date, time);
     }
 }
