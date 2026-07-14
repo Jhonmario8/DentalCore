@@ -7,11 +7,14 @@ import com.lc.dentalcore.application.mapper.IPaymentHistoryMapper;
 import com.lc.dentalcore.application.mapper.IPaymentMapper;
 import com.lc.dentalcore.domain.api.IPaymentServicePort;
 import com.lc.dentalcore.domain.model.DashboardSummary;
+import com.lc.dentalcore.domain.model.EarningsResponse;
 import com.lc.dentalcore.domain.model.PaymentTransaction;
+import com.lc.dentalcore.domain.model.PeriodType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -45,5 +48,10 @@ public class PaymentHandler implements IPaymentHandler{
     @Override
     public List<PaymentTransaction> getAllTransactionsByPaymentId(Long paymentId) {
         return paymentServicePort.getAllTransactionsByPaymentId(paymentId);
+    }
+
+    @Override
+    public EarningsResponse getEarnings(PeriodType period, LocalDate date) {
+        return paymentServicePort.getEarnings(period, date);
     }
 }

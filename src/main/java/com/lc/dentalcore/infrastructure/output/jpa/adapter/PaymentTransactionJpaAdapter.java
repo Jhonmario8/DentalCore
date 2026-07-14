@@ -7,6 +7,7 @@ import com.lc.dentalcore.infrastructure.output.jpa.repository.IPaymentTransactio
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,4 +37,11 @@ public class PaymentTransactionJpaAdapter implements IPaymentTransactionPersiste
         return paymentTransactionRepository.findAllByPaymentId(paymentId)
                 .stream().map(mapper::toDomain).toList();
     }
+
+    @Override
+    public BigDecimal sumAmountByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return paymentTransactionRepository.sumAmountByDateRange(startDate, endDate);
+    }
+
+
 }

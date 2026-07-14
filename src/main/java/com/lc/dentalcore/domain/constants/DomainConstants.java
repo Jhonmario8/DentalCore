@@ -27,4 +27,5 @@ public class DomainConstants {
     public static final String PAYMENT_ALREADY_EXIST = "Payment already exists for this appointment";
     public static final String PAYMENT_NOT_FOUND = "Payment not found";
     public static final String MSG_USERNAME_ALREADY_EXISTS = "Username already exists";
+    public static final String MSG_INVALID_PERIOD = "Invalid period. Please provide a valid period (DAILY, WEEKLY, MONTHLY, YEARLY) and a date in the format YYYY-MM-DD.";
 }

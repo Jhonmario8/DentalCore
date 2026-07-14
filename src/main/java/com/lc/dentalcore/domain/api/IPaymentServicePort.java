@@ -1,11 +1,9 @@
 package com.lc.dentalcore.domain.api;
 
-import com.lc.dentalcore.domain.model.DashboardSummary;
-import com.lc.dentalcore.domain.model.Payment;
-import com.lc.dentalcore.domain.model.PaymentHistory;
-import com.lc.dentalcore.domain.model.PaymentTransaction;
+import com.lc.dentalcore.domain.model.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -15,5 +13,6 @@ public interface IPaymentServicePort {
     PaymentHistory getAllByPatientId(Long patientId);
     DashboardSummary getDashboardSummary();
     List<PaymentTransaction> getAllTransactionsByPaymentId(Long paymentId);
+    EarningsResponse getEarnings(PeriodType period, LocalDate date);
 
 }

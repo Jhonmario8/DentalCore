@@ -11,8 +11,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -109,6 +111,47 @@ public class PaymentService implements IPaymentServicePort {
     @Override
     public List<PaymentTransaction> getAllTransactionsByPaymentId(Long paymentId) {
         return paymentTransactionPersistencePort.findAllByPaymentId(paymentId);
+    }
+
+    @Override
+    public EarningsResponse getEarnings(PeriodType period, LocalDate date) {
+        if (date == null){
+            date = LocalDate.now();
+        }
+
+        LocalDate startDate;
+        LocalDate endDate;
+
+        switch (period) {
+
+            case WEEKLY -> {
+                startDate = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+                endDate = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+            }
+
+            case MONTHLY -> {
+                startDate = date.withDayOfMonth(1);
+                endDate = date.withDayOfMonth(date.lengthOfMonth());
+            }
+
+            case YEARLY -> {
+                startDate = date.withDayOfYear(1);
+                endDate = date.withDayOfYear(date.lengthOfYear());
+            }
+
+            default -> throw new InvalidPeriodException();
+        }
+
+        BigDecimal totalCollected = paymentTransactionPersistencePort.sumAmountByDateRange(
+                startDate.atStartOfDay(),
+                endDate.plusDays(1).atStartOfDay()
+        );
+
+        return new EarningsResponse(
+                totalCollected,
+                startDate,
+                endDate
+        );
     }
 
     private void registerTransaction(Long paymentId, BigDecimal amount) {

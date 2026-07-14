@@ -4,9 +4,12 @@ import com.lc.dentalcore.application.dto.PaymentDTO;
 import com.lc.dentalcore.application.dto.PaymentHistoryDTO;
 import com.lc.dentalcore.application.dto.PaymentResponseDTO;
 import com.lc.dentalcore.domain.model.DashboardSummary;
+import com.lc.dentalcore.domain.model.EarningsResponse;
 import com.lc.dentalcore.domain.model.PaymentTransaction;
+import com.lc.dentalcore.domain.model.PeriodType;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IPaymentHandler {
@@ -15,4 +18,5 @@ public interface IPaymentHandler {
     PaymentHistoryDTO getAllByPatientId(Long patientId);
     DashboardSummary getDashboardSummary();
     List<PaymentTransaction> getAllTransactionsByPaymentId(Long paymentId);
+    EarningsResponse getEarnings(PeriodType period, LocalDate date);
 }
