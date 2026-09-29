@@ -279,7 +279,7 @@ En total son 56 métodos de test (81 ejecuciones, contando los casos parametriza
 Todo lo siguiente se detectó revisando el código y escribiendo los tests. **No está corregido todavía.**
 
 **Seguridad**
-- **El registro de usuarios es público.** `SecurityConfig` permite `/users/**` sin autenticación, así que cualquiera que llegue a la API puede crear un usuario, iniciar sesión y leer datos de pacientes. El registro debería estar cerrado o protegido.
+- **El registro de usuarios requiere autenticación.** `SecurityConfig` solo permite sin autenticación `POST /users/login` (y Swagger); `POST /users` exige el mismo JWT que el resto de la API.
 - `JwtAuth.getAuthorities()` devuelve `null`: no hay roles.
 - El login aplica la política de contraseñas antes de consultar el usuario, así que una contraseña con formato inválido devuelve 400 en lugar de 401.
 
